@@ -1,0 +1,177 @@
+{
+  "site": {
+    "title": "Dev Kumar — Educator & Developer",
+    "favicon": "images/favicon.png"
+  },
+  "profile": {
+    "name": "Dev Kumar",
+    "eyebrow": "English & Computer Applications — for students, not for a syllabus",
+    "tagline": "I teach the parts of English and computers that other lessons skip past.",
+    "photo": "images/profile.jpg",
+    "location": "Dasuya, Punjab, India",
+    "bio": "If a worksheet or a lecture isn't landing, I build something that will — quiz sites, lesson platforms, a chatbot that answers grammar questions at midnight. In the classroom itself, it's stories, analogies, and real examples over rules recited from a textbook. Same question drives all of it: what actually gets someone to understand this?",
+    "marginNote": "started as a teacher, kept getting distracted by the console",
+    "resumeLink": "",
+    "socials": [
+      { "label": "YouTube — Bewakoof English", "url": "https://youtube.com/@bewakoofenglish-wo8ze?si=BXm2k9aVATNxsAVE" },
+      { "label": "Substack", "url": "https://optinihilist.substack.com/" },
+      { "label": "Instagram — Opti Nihilist", "url": "https://www.instagram.com/opti.nihilist/" },
+      { "label": "GitHub", "url": "https://github.com/dev913913" },
+      { "label": "Email", "url": "mailto:dev913913@gmail.com" }
+    ]
+  },
+  "teaching": {
+    "heading": "Teaches",
+    "note": "English, computer applications, and how to actually use the tools people are handed but never taught.",
+    "marginNote": "red pen in one hand, keyboard in the other",
+    "subjects": [
+      "English Language",
+      "Computer Applications",
+      "Microsoft Word",
+      "Microsoft Excel",
+      "Microsoft PowerPoint",
+      "Visual Studio Code",
+      "Basic Computer Skills"
+    ],
+    "content": [
+      {
+        "title": "Bewakoof English",
+        "type": "YouTube Channel",
+        "description": "~200 educational videos: English grammar, classroom lectures, Office tutorials, VS Code setup, basic programming, and AI-related content.",
+        "link": "https://youtube.com/@bewakoofenglish-wo8ze?si=BXm2k9aVATNxsAVE"
+      },
+      {
+        "title": "Educational Blog",
+        "type": "Blog",
+        "description": "Grammar lessons, story-reading lessons, and interactive listening exercises with quizzes and instant scoring.",
+        "link": "https://www.bewakoofenglish.blogspot.com"
+      }
+    ],
+    "blogFeature": {
+      "label": "Bewakoof English — the blog",
+      "title": "Grammar lessons, story-reading, and listening exercises",
+      "description": "Interactive quizzes with instant scoring, built the same way the classroom lessons are — story-first, not rule-first.",
+      "link": "https://www.bewakoofenglish.blogspot.com"
+    },
+    "videoFeature": {
+      "label": "English, in the classroom",
+      "youtubeId": "au_Ij5a7B80",
+      "title": "An English lesson, taught the way I actually teach it",
+      "description": "Full lesson pulled straight from Bewakoof English — grammar, explained the way it lands with students, not the way a textbook writes it."
+    },
+    "confidenceFeature": {
+      "label": "Beyond the syllabus",
+      "youtubeId": "OGxUayKvEIw",
+      "title": "On getting students confident enough to speak up",
+      "description": "Not every lesson is grammar. Some of it is just getting a student comfortable enough to talk in front of others."
+    },
+    "csFeature": {
+      "label": "Computer Applications",
+      "youtubeId": "gHzZpRZDyIY",
+      "title": "A programming concept, taught from scratch",
+      "description": "One of the CS/programming tutorials — same teach-it-so-it-actually-lands approach, aimed at code instead of grammar."
+    },
+    "officeTutorials": {
+      "note": "Where the channel started — Microsoft Office tutorials, back when it was still Dev Academy.",
+      "items": [
+        { "title": "Microsoft Word", "youtubeId": "xPQNmDU_WQQ", "note": "one of the earliest uploads on the channel" },
+        { "title": "Microsoft Excel", "youtubeId": "1oeTgxdBXi0" },
+        { "title": "Microsoft PowerPoint", "youtubeId": "uW8pBou6UWM" }
+      ]
+    },
+    "shorts": {
+      "note": "The same lessons, cut down to the part that matters.",
+      "items": [
+        { "title": "REPLACE: short title", "youtubeId": "REPLACE_WITH_SHORT_ID", "topic": "English" },
+        { "title": "REPLACE: short title", "youtubeId": "REPLACE_WITH_SHORT_ID", "topic": "Computer Applications" }
+      ]
+    },
+    "administrative": [
+      "IIC (Institution's Innovation Council) coordination — activity reports, quarterly plans, annual submissions",
+      "NAAC, IQAC, NSS, Red Ribbon Club, Youth Services Club, Eco Club documentation",
+      "Academic Committee & Grievance Cell documentation",
+      "Official notices, Minutes of Meetings, event & activity reports",
+      "NSS student registration and My Bharat Portal data management",
+      "Induction programme coordination — auditorium, AV systems, logistics",
+      "Computer Lab & Language Lab management, basic networking troubleshooting",
+      "Admission counselling and outreach campaigns"
+    ]
+  },
+  "building": {
+    "heading": "Builds",
+    "note": "Live web apps, mostly AI-powered, built to actually be used — not just demoed.",
+    "marginNote": "shipped is better than perfect",
+    "projects": [
+      {
+        "name": "PTU English Prep",
+        "description": "Supplementary teaching site for AECC English — quizzes, PYQ archives, and Lab/Theory unit content, built alongside actual classroom use.",
+        "tech": ["React", "Vite", "Tailwind", "Vercel"],
+        "link": "https://ptu-english.vercel.app",
+        "image": "images/ptuenglish.jpg",
+        "featured": true,
+        "liveEmbed": true
+      },
+      {
+        "name": "Codev CMS",
+        "description": "Live educational platform for creating, managing, and publishing programming lessons — C, C++, Python, and JavaScript — with an admin dashboard and Supabase backend.",
+        "tech": ["React", "Supabase", "Vercel"],
+        "link": "https://codev-cms.vercel.app",
+        "image": "images/codev.jpg"
+      },
+      {
+        "name": "Pakshi",
+        "description": "Indian bird sound library — ambient layers, a woodpecker multi-sound cycler, and a voice-mimic feature that pitch-shifts your voice into a bird call.",
+        "tech": ["JavaScript", "Web Audio API", "MediaRecorder"],
+        "link": "https://pakshi-lovat.vercel.app",
+        "image": "images/pakshi.jpg"
+      },
+      {
+        "name": "Naruto Motivation Chatbot",
+        "description": "AI-powered motivational chatbot inspired by Naruto, with mood-detection across six categories and a hardcoded distress-safety bypass.",
+        "tech": ["Gemini API", "Vercel Functions"],
+        "link": "https://naruto-motivation-chat.vercel.app",
+        "image": "images/naruto.jpg"
+      },
+      {
+        "name": "Dil Ki Dawa",
+        "description": "Mood-based recommender for old Hindi songs, powered by the Gemini API.",
+        "tech": ["Gemini API", "JavaScript"],
+        "link": "https://dil-ki-dawa.vercel.app",
+        "image": "images/dilkidawa.jpg"
+      }
+    ],
+    "skills": {
+      "Languages": ["C", "C++", "Python", "Java", "JavaScript"],
+      "Web": ["React", "Vite", "Tailwind", "HTML/CSS", "PHP", "MySQL"],
+      "AI & APIs": ["Gemini API", "REST APIs", "Prompt Engineering", "Local LLM fine-tuning (Unsloth/QLoRA)"],
+      "Tools": ["VS Code", "Git", "GitHub", "Vercel", "Supabase"]
+    }
+  },
+  "certificates": {
+    "heading": "Credentials",
+    "note": "Add each certificate here — image plus a short label.",
+    "marginNote": "stamped and filed",
+    "items": [
+      {
+        "title": "Example Certificate",
+        "issuer": "Issuer Name",
+        "date": "2025",
+        "image": "certificates/example.jpg"
+      }
+    ]
+  },
+  "writing": {
+    "heading": "Writing",
+    "note": "Essays on personal development, psychology, and philosophy — off the clock, still teaching.",
+    "marginNote": "off the clock, still teaching",
+    "substack": {
+      "publicationName": "Opti Nihilist",
+      "embedUrl": "https://optinihilist.substack.com/embed",
+      "link": "https://optinihilist.substack.com/"
+    },
+    "instagram": {
+      "handle": "@opti.nihilist",
+      "link": "https://www.instagram.com/opti.nihilist/"
+    }
+  }
+}
