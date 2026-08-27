@@ -198,11 +198,81 @@ a:focus-visible, button:focus-visible{ outline: 2px solid var(--chalk); outline-
   filter: blur(0.2px);
 }
 
+/* IDENTITY NAV — Educator / Builder / Writer, jump-to-section */
+.identity-nav{
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 32px 40px 88px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+  animation: rise 0.8s var(--ease-out) 0.3s both;
+}
+@media (max-width: 720px){
+  .identity-nav{ padding: 0 24px 32px 56px; grid-template-columns: 1fr; }
+}
+
+.identity-tab{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+.identity-tab:hover, .identity-tab.is-active{
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px -16px rgba(36,35,30,0.25);
+}
+.identity-tab{ border-bottom: 1px solid var(--line); } /* override global link underline */
+
+.identity-tab-mark{
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  flex-shrink: 0;
+}
+.identity-tab-text{ display: flex; flex-direction: column; gap: 2px; }
+.identity-tab-label{
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.identity-tab-sub{
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+/* per-tab accent, echoing each section's own color language */
+.identity-tab[data-target="teach"]:hover, .identity-tab[data-target="teach"].is-active{
+  border-color: var(--red);
+}
+.identity-tab[data-target="teach"]:hover .identity-tab-mark,
+.identity-tab[data-target="teach"].is-active .identity-tab-mark{ color: var(--red); }
+
+.identity-tab[data-target="build"]:hover, .identity-tab[data-target="build"].is-active{
+  border-color: var(--chalk);
+}
+.identity-tab[data-target="build"]:hover .identity-tab-mark,
+.identity-tab[data-target="build"].is-active .identity-tab-mark{ color: var(--chalk); }
+
+.identity-tab[data-target="writing"]:hover, .identity-tab[data-target="writing"].is-active{
+  border-color: var(--gold);
+}
+.identity-tab[data-target="writing"]:hover .identity-tab-mark,
+.identity-tab[data-target="writing"].is-active .identity-tab-mark{ color: var(--gold); }
+
 /* LANES */
 main{ max-width: var(--max); margin: 0 auto; padding: 0 32px 0 88px; position: relative; z-index: 1; }
 @media (max-width: 720px){ main{ padding: 0 24px 0 56px; } }
 
-.lane{ padding: 72px 0; border-top: 1px solid var(--line); }
+.lane{ padding: 72px 0; border-top: 1px solid var(--line); scroll-margin-top: 28px; }
 .lane:first-of-type{ border-top: none; }
 
 /* scroll reveal */
@@ -631,12 +701,35 @@ main{ max-width: var(--max); margin: 0 auto; padding: 0 32px 0 88px; position: r
   border: 1px solid var(--line);
   border-radius: 4px;
   padding: 22px;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
 }
 .substack-card:hover{ transform: translateY(-3px); box-shadow: 0 16px 32px -18px rgba(36,35,30,0.18); }
-.substack-card h3{ font-family: var(--serif); font-weight:600; font-size: 1.2rem; margin-bottom: 14px; }
-.substack-embed{ margin-bottom: 14px; border-radius: 3px; }
-.substack-card a.card-link{ font-family: var(--mono); font-size: 0.8rem; }
+.substack-card h3{ font-family: var(--serif); font-weight:600; font-size: 1.2rem; margin-bottom: 10px; }
+.substack-card p{ color: var(--ink-soft); font-size: 0.92rem; margin-bottom: 18px; }
+
+.substack-cta{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 10px 18px;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--ink);
+  transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+.substack-cta:hover{
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: 1px solid var(--ink);
+}
+.substack-cta-arrow{ transition: transform 0.25s var(--ease-out); }
+.substack-cta:hover .substack-cta-arrow{ transform: translateX(3px); }
 
 .instagram-card{ display:flex; flex-direction: column; justify-content: center; }
 .instagram-card h3{ font-family: var(--mono); }

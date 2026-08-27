@@ -344,7 +344,12 @@ async function render() {
   setMarginNote(document.getElementById('certificates'), c.marginNote);
 
   const certGrid = document.getElementById('certs-grid');
-  (c.items || []).forEach(cert => {
+  const certItems = c.items || [];
+  if (!certItems.length) {
+    const certSection = document.getElementById('certificates');
+    if (certSection) certSection.style.display = 'none';
+  }
+  certItems.forEach(cert => {
     const card = el('div', { class: 'cert-card' });
     if (cert.image) {
       const img = el('img', { attrs: { src: cert.image, alt: cert.title || '' } });
@@ -370,21 +375,17 @@ async function render() {
     const sub = el('div', { class: 'substack-card' });
     sub.appendChild(el('span', { class: 'video-card-label', text: 'Substack' }));
     sub.appendChild(el('h3', { text: w.substack.publicationName || 'Substack' }));
-    if (w.substack.embedUrl) {
-      const iframe = el('iframe', {
-        class: 'substack-embed',
-        attrs: {
-          src: w.substack.embedUrl,
-          height: '320',
-          style: 'width:100%; border:1px solid var(--line); background: #fff;',
-          frameborder: '0',
-          scrolling: 'no'
-        }
-      });
-      sub.appendChild(iframe);
+    if (w.substack.description) {
+      sub.appendChild(el('p', { text: w.substack.description }));
     }
     if (w.substack.link) {
-      sub.appendChild(el('a', { text: 'Read on Substack', class: 'card-link', attrs: { href: w.substack.link, target: '_blank', rel: 'noopener' } }));
+      const cta = el('a', {
+        class: 'substack-cta',
+        attrs: { href: w.substack.link, target: '_blank', rel: 'noopener' }
+      });
+      cta.appendChild(el('span', { text: 'Read on Substack' }));
+      cta.appendChild(el('span', { class: 'substack-cta-arrow', html: '&rarr;' }));
+      sub.appendChild(cta);
     }
     writingWrap.appendChild(sub);
   }

@@ -6,7 +6,7 @@
   "profile": {
     "name": "Dev Kumar",
     "eyebrow": "English & Computer Applications — for students, not for a syllabus",
-    "tagline": "I teach the parts of English and computers that other lessons skip past. Over three and a half years across teaching, institutional documentation, content creation, and web development — combined with a growing focus on software development and applied AI.",
+    "tagline": "I teach the parts of English and computers that other lessons skip past.",
     "photo": "images/profile.jpg",
     "location": "Dasuya, Punjab, India",
     "bio": "If a worksheet or a lecture isn't landing, I build something that will — quiz sites, lesson platforms, a chatbot that answers grammar questions at midnight. In the classroom itself, it's stories, analogies, and real examples over rules recited from a textbook. Same question drives all of it: what actually gets someone to understand this?",
@@ -151,14 +151,7 @@
     "heading": "Credentials",
     "note": "Add each certificate here — image plus a short label.",
     "marginNote": "stamped and filed",
-    "items": [
-      {
-        "title": "Example Certificate",
-        "issuer": "Issuer Name",
-        "date": "2025",
-        "image": "certificates/example.jpg"
-      }
-    ]
+    "items": []
   },
   "writing": {
     "heading": "Writing",
@@ -166,7 +159,7 @@
     "marginNote": "off the clock, still teaching",
     "substack": {
       "publicationName": "Opti Nihilist",
-      "embedUrl": "https://optinihilist.substack.com/embed",
+      "description": "Essays on personal development, psychology, and philosophy — some pieces recognised and shared by published authors.",
       "link": "https://optinihilist.substack.com/"
     },
     "instagram": {
