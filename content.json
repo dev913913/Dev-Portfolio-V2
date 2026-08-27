@@ -82,8 +82,8 @@
     "shorts": {
       "note": "The same lessons, cut down to the part that matters.",
       "items": [
-        { "title": "Past vs Since ", "youtubeId": "https://youtube.com/shorts/yNblKv84vkk?si=xNsyRsnoLoXdOHwh", "topic": "English" },
-        { "title": "Python in VS Code", "youtubeId": "https://youtube.com/shorts/0Qr8YHbQwp8?si=o0EU3QlLsMB4d9o- ", "topic": "Computer Applications" }
+        { "title": "Past vs Since", "youtubeId": "yNblKv84vkk", "topic": "English" },
+        { "title": "Python in VS Code", "youtubeId": "0Qr8YHbQwp8", "topic": "Computer Applications" }
       ]
     },
     "administrative": [
