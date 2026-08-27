@@ -6,7 +6,7 @@
   "profile": {
     "name": "Dev Kumar",
     "eyebrow": "English & Computer Applications — for students, not for a syllabus",
-    "tagline": "I teach the parts of English and computers that other lessons skip past.",
+    "tagline": "I teach the parts of English and computers that other lessons skip past. Over three and a half years across teaching, institutional documentation, content creation, and web development — combined with a growing focus on software development and applied AI.",
     "photo": "images/profile.jpg",
     "location": "Dasuya, Punjab, India",
     "bio": "If a worksheet or a lecture isn't landing, I build something that will — quiz sites, lesson platforms, a chatbot that answers grammar questions at midnight. In the classroom itself, it's stories, analogies, and real examples over rules recited from a textbook. Same question drives all of it: what actually gets someone to understand this?",
@@ -44,7 +44,7 @@
         "title": "Educational Blog",
         "type": "Blog",
         "description": "Grammar lessons, story-reading lessons, and interactive listening exercises with quizzes and instant scoring.",
-        "link": "https://www.bewakoofenglish.blogspot.com"
+        "link": "https://bewakoofenglish.blogspot.com"
       }
     ],
     "blogFeature": {
