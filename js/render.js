@@ -27,6 +27,23 @@ function setMarginNote(sectionEl, text) {
   if (note) note.textContent = text;
 }
 
+function getYouTubeId(value) {
+  if (!value) return '';
+  const candidate = String(value).trim();
+  if (/^[\w-]{11}$/.test(candidate)) return candidate;
+
+  try {
+    const url = new URL(candidate);
+    if (url.hostname === 'youtu.be') return url.pathname.slice(1).split('/')[0];
+    if (url.hostname.endsWith('youtube.com')) {
+      return url.searchParams.get('v') || url.pathname.match(/\/(?:shorts|embed|live)\/([\w-]{11})/)?.[1] || '';
+    }
+  } catch (_) {
+    return '';
+  }
+  return '';
+}
+
 /* ---------- Click-to-expand YouTube card ----------
    Renders a thumbnail with a play affordance. On click, swaps the
    thumbnail for a real iframe embed (autoplay=1) so nothing loads
@@ -81,7 +98,8 @@ function playIconSVG() {
    Uses the /shorts/ embed path so YouTube renders its native vertical
    player instead of letterboxing a 9:16 video inside a 16:9 frame. */
 function buildShortCard({ youtubeId, title, topic }) {
-  if (!youtubeId) return null;
+  const videoId = getYouTubeId(youtubeId);
+  if (!videoId) return null;
   const wrap = el('div', { class: 'short-card' });
 
   if (topic) wrap.appendChild(el('span', { class: 'video-card-label', text: topic }));
@@ -92,7 +110,7 @@ function buildShortCard({ youtubeId, title, topic }) {
     attrs: {
       type: 'button',
       'aria-label': `Play short: ${title || 'YouTube Short'}`,
-      style: `background-image:url('https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg')`
+      style: `background-image:url('https://i.ytimg.com/vi/${videoId}/hqdefault.jpg')`
     }
   });
   thumb.appendChild(el('span', { class: 'play-badge', html: playIconSVG() }));
@@ -101,7 +119,7 @@ function buildShortCard({ youtubeId, title, topic }) {
   thumb.addEventListener('click', () => {
     const iframe = el('iframe', {
       attrs: {
-        src: `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`,
+        src: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`,
         title: title || 'YouTube Short player',
         frameborder: '0',
         allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
