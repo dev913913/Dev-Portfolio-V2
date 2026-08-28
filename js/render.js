@@ -135,10 +135,11 @@ function buildShortCard({ youtubeId, title, topic }) {
   return wrap;
 }
 
-/* ---------- Click-to-load Blog embed ----------
-   Blogger pages don't offer a lightweight oEmbed feed, so this shows
-   an inviting preview panel and swaps in a live iframe of the blog
-   itself on click — same "nothing loads until asked" pattern as video. */
+/* ---------- Blog embed ----------
+   Blogger is a plain server-rendered page (not a heavy app like
+   Substack), so it's safe to load directly rather than gating it
+   behind a click. "Visit blog directly" stays as a fallback link
+   in case the iframe ever renders oddly on a visitor's browser. */
 function buildBlogCard({ label, title, description, link }) {
   if (!link) return null;
   const wrap = el('div', { class: 'blog-card' });
@@ -146,33 +147,18 @@ function buildBlogCard({ label, title, description, link }) {
   if (label) wrap.appendChild(el('span', { class: 'video-card-label', text: label }));
 
   const frame = el('div', { class: 'blog-card-frame' });
-  const openBtn = el('button', {
-    class: 'blog-open-btn',
-    attrs: { type: 'button', 'aria-label': `Open the blog: ${title || link}` }
+  const iframe = el('iframe', {
+    class: 'blog-embed-iframe',
+    attrs: { src: link, title: title || 'Educational blog', loading: 'lazy' }
   });
-  openBtn.appendChild(el('span', { class: 'blog-open-icon', html: bookIconSVG() }));
-  openBtn.appendChild(el('span', { class: 'blog-open-text', text: 'Open the blog' }));
-  frame.appendChild(openBtn);
-
-  openBtn.addEventListener('click', () => {
-    const iframe = el('iframe', {
-      class: 'blog-embed-iframe',
-      attrs: { src: link, title: title || 'Educational blog', loading: 'lazy' }
-    });
-    frame.innerHTML = '';
-    frame.appendChild(iframe);
-  }, { once: true });
-
+  frame.appendChild(iframe);
   wrap.appendChild(frame);
+
   if (title) wrap.appendChild(el('h3', { text: title }));
   if (description) wrap.appendChild(el('p', { text: description }));
   wrap.appendChild(el('a', { text: 'Visit blog directly', class: 'card-link', attrs: { href: link, target: '_blank', rel: 'noopener' } }));
 
   return wrap;
-}
-
-function bookIconSVG() {
-  return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5v-13z"/><path d="M20 5.5C20 4.67 19.33 4 18.5 4H12v16h6.5a1.5 1.5 0 0 0 1.5-1.5v-13z"/></svg>`;
 }
 
 async function render() {
@@ -391,10 +377,18 @@ async function render() {
 
   if (w.substack) {
     const sub = el('div', { class: 'substack-card' });
-    sub.appendChild(el('span', { class: 'video-card-label', text: 'Substack' }));
-    sub.appendChild(el('h3', { text: w.substack.publicationName || 'Substack' }));
+    if (w.substack.image) {
+      const shot = el('div', { class: 'showcase-shot' });
+      const img = el('img', { attrs: { src: w.substack.image, alt: (w.substack.publicationName || 'Substack') + ' preview', loading: 'lazy' } });
+      safeFallback(img, shot, 'shot-fallback-light');
+      shot.appendChild(img);
+      sub.appendChild(shot);
+    }
+    const subBody = el('div', { class: 'showcase-card-body' });
+    subBody.appendChild(el('span', { class: 'video-card-label', text: 'Substack' }));
+    subBody.appendChild(el('h3', { text: w.substack.publicationName || 'Substack' }));
     if (w.substack.description) {
-      sub.appendChild(el('p', { text: w.substack.description }));
+      subBody.appendChild(el('p', { text: w.substack.description }));
     }
     if (w.substack.link) {
       const cta = el('a', {
@@ -403,18 +397,29 @@ async function render() {
       });
       cta.appendChild(el('span', { text: 'Read on Substack' }));
       cta.appendChild(el('span', { class: 'substack-cta-arrow', html: '&rarr;' }));
-      sub.appendChild(cta);
+      subBody.appendChild(cta);
     }
+    sub.appendChild(subBody);
     writingWrap.appendChild(sub);
   }
 
   if (w.instagram) {
-    const insta = el('div', { class: 'card instagram-card', attrs: { 'data-type': 'Instagram' } });
-    insta.appendChild(el('h3', { text: w.instagram.handle || 'Instagram' }));
-    insta.appendChild(el('p', { text: 'Reflective and educational writing, in shorter form.' }));
-    if (w.instagram.link) {
-      insta.appendChild(el('a', { text: 'View profile', class: 'card-link', attrs: { href: w.instagram.link, target: '_blank', rel: 'noopener' } }));
+    const insta = el('div', { class: 'instagram-card' });
+    if (w.instagram.image) {
+      const shot = el('div', { class: 'showcase-shot' });
+      const img = el('img', { attrs: { src: w.instagram.image, alt: (w.instagram.handle || 'Instagram') + ' preview', loading: 'lazy' } });
+      safeFallback(img, shot, 'shot-fallback-light');
+      shot.appendChild(img);
+      insta.appendChild(shot);
     }
+    const instaBody = el('div', { class: 'showcase-card-body' });
+    instaBody.appendChild(el('span', { class: 'video-card-label', text: 'Instagram' }));
+    instaBody.appendChild(el('h3', { text: w.instagram.handle || 'Instagram' }));
+    instaBody.appendChild(el('p', { text: 'Reflective and educational writing, in shorter form.' }));
+    if (w.instagram.link) {
+      instaBody.appendChild(el('a', { text: 'View profile', class: 'card-link', attrs: { href: w.instagram.link, target: '_blank', rel: 'noopener' } }));
+    }
+    insta.appendChild(instaBody);
     writingWrap.appendChild(insta);
   }
 
