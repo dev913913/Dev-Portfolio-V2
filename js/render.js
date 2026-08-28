@@ -1,3 +1,13 @@
+/**
+ * Creates a DOM element with the specified tag and options.
+ * @param {string} tag - The HTML tag name to create.
+ * @param {Object} opts - Configuration options for the element.
+ * @param {string} [opts.text] - Text content for the element.
+ * @param {string} [opts.html] - HTML content for the element.
+ * @param {string} [opts.class] - CSS class name(s) for the element.
+ * @param {Object} [opts.attrs] - Object of attributes to set on the element.
+ * @returns {HTMLElement} The created DOM element.
+ */
 function el(tag, opts = {}) {
   const e = document.createElement(tag);
   if (opts.text) e.textContent = opts.text;
@@ -7,13 +17,22 @@ function el(tag, opts = {}) {
   return e;
 }
 
+/**
+ * Hides an image element if it fails to load.
+ * @param {HTMLImageElement} imgEl - The image element to hide on error.
+ */
 function safeHide(imgEl) {
   imgEl.addEventListener('error', () => { imgEl.style.display = 'none'; });
 }
 
-/* Falls back to a styled placeholder instead of collapsing to nothing.
-   placeholderClass adds a marker class to the parent so CSS can show
-   an icon/initial in place of the missing image. */
+/**
+ * Falls back to a styled placeholder instead of collapsing to nothing.
+ * placeholderClass adds a marker class to the parent so CSS can show
+ * an icon/initial in place of the missing image.
+ * @param {HTMLImageElement} imgEl - The image element to handle.
+ * @param {HTMLElement} parentEl - The parent element to add the placeholder class to.
+ * @param {string} placeholderClass - The CSS class to add for placeholder styling.
+ */
 function safeFallback(imgEl, parentEl, placeholderClass) {
   imgEl.addEventListener('error', () => {
     imgEl.style.display = 'none';
@@ -21,12 +40,22 @@ function safeFallback(imgEl, parentEl, placeholderClass) {
   });
 }
 
+/**
+ * Sets the text content of a margin note within a section element.
+ * @param {HTMLElement} sectionEl - The section element containing the margin note.
+ * @param {string} text - The text to set in the margin note.
+ */
 function setMarginNote(sectionEl, text) {
   if (!text) return;
   const note = sectionEl.querySelector('[data-margin]');
   if (note) note.textContent = text;
 }
 
+/**
+ * Extracts a YouTube video ID from various URL formats or returns the ID if already provided.
+ * @param {string} value - A YouTube URL or video ID.
+ * @returns {string} The extracted YouTube video ID, or empty string if invalid.
+ */
 function getYouTubeId(value) {
   if (!value) return '';
   const candidate = String(value).trim();
@@ -44,11 +73,20 @@ function getYouTubeId(value) {
   return '';
 }
 
-/* ---------- Click-to-expand YouTube card ----------
-   Renders a thumbnail with a play affordance. On click, swaps the
-   thumbnail for a real iframe embed (autoplay=1) so nothing loads
-   or plays until the person actually asks for it. Works identically
-   on touch and pointer devices since it's click-based, not hover-based. */
+/**
+ * Builds a click-to-expand YouTube video card.
+ * Renders a thumbnail with a play affordance. On click, swaps the
+ * thumbnail for a real iframe embed (autoplay=1) so nothing loads
+ * or plays until the person actually asks for it. Works identically
+ * on touch and pointer devices since it's click-based, not hover-based.
+ * @param {Object} params - Video card parameters.
+ * @param {string} params.youtubeId - The YouTube video ID.
+ * @param {string} [params.label] - Optional label to display above the card.
+ * @param {string} [params.title] - Optional title for the video.
+ * @param {string} [params.description] - Optional description text.
+ * @param {string} [params.size='large'] - Card size variant ('large', 'small', 'wide').
+ * @returns {HTMLElement|null} The video card element, or null if no youtubeId provided.
+ */
 function buildVideoCard({ youtubeId, label, title, description, size = 'large' }) {
   if (!youtubeId) return null;
   const wrap = el('div', { class: `video-card video-card--${size}` });
@@ -90,13 +128,24 @@ function buildVideoCard({ youtubeId, label, title, description, size = 'large' }
   return wrap;
 }
 
+/**
+ * Returns an SVG play icon as an HTML string.
+ * @returns {string} The SVG markup for a play icon.
+ */
 function playIconSVG() {
   return `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>`;
 }
 
-/* ---------- Shorts card — vertical aspect, click-to-play ----------
-   Uses the /shorts/ embed path so YouTube renders its native vertical
-   player instead of letterboxing a 9:16 video inside a 16:9 frame. */
+/**
+ * Builds a YouTube Shorts card with vertical aspect ratio and click-to-play functionality.
+ * Uses the /shorts/ embed path so YouTube renders its native vertical
+ * player instead of letterboxing a 9:16 video inside a 16:9 frame.
+ * @param {Object} params - Short card parameters.
+ * @param {string} params.youtubeId - The YouTube Short video ID or URL.
+ * @param {string} [params.title] - Optional title for the short.
+ * @param {string} [params.topic] - Optional topic label to display.
+ * @returns {HTMLElement|null} The short card element, or null if no valid video ID.
+ */
 function buildShortCard({ youtubeId, title, topic }) {
   const videoId = getYouTubeId(youtubeId);
   if (!videoId) return null;
@@ -135,11 +184,19 @@ function buildShortCard({ youtubeId, title, topic }) {
   return wrap;
 }
 
-/* ---------- Blog embed ----------
-   Blogger is a plain server-rendered page (not a heavy app like
-   Substack), so it's safe to load directly rather than gating it
-   behind a click. "Visit blog directly" stays as a fallback link
-   in case the iframe ever renders oddly on a visitor's browser. */
+/**
+ * Builds a blog embed card with an iframe.
+ * Blogger is a plain server-rendered page (not a heavy app like
+ * Substack), so it's safe to load directly rather than gating it
+ * behind a click. "Visit blog directly" stays as a fallback link
+ * in case the iframe ever renders oddly on a visitor's browser.
+ * @param {Object} params - Blog card parameters.
+ * @param {string} [params.label] - Optional label to display above the card.
+ * @param {string} [params.title] - Optional title for the blog.
+ * @param {string} [params.description] - Optional description text.
+ * @param {string} params.link - The blog URL to embed.
+ * @returns {HTMLElement|null} The blog card element, or null if no link provided.
+ */
 function buildBlogCard({ label, title, description, link }) {
   if (!link) return null;
   const wrap = el('div', { class: 'blog-card' });
@@ -161,6 +218,11 @@ function buildBlogCard({ label, title, description, link }) {
   return wrap;
 }
 
+/**
+ * Renders all content sections of the portfolio by fetching data and populating the DOM.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function render() {
   const data = await loadContent();
   if (!data) return;

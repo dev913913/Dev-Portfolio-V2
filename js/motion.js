@@ -1,6 +1,10 @@
 (function () {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /**
+   * Initializes scroll-based reveal animations for elements with data-reveal attribute.
+   * Respects user's motion preferences and falls back gracefully.
+   */
   function initReveals() {
     const targets = document.querySelectorAll('[data-reveal]');
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
@@ -19,6 +23,10 @@
     targets.forEach(t => observer.observe(t));
   }
 
+  /**
+   * Initializes the reading progress indicator that tracks scroll position.
+   * Updates a visual progress bar based on how far the user has scrolled.
+   */
   function initProgressThread() {
     const fill = document.getElementById('progress-fill');
     if (!fill || prefersReducedMotion) return;
@@ -32,9 +40,11 @@
     update();
   }
 
-  /* Highlights the matching identity tab while its section is on screen.
-     Purely cosmetic — the tabs are plain <a href="#..."> links underneath,
-     so jump-to-section navigation works even if this never runs. */
+  /**
+   * Highlights the matching identity tab while its section is on screen.
+   * Purely cosmetic — the tabs are plain <a href="#..."> links underneath,
+   * so jump-to-section navigation works even if this never runs.
+   */
   function initIdentityNavSpy() {
     const tabs = document.querySelectorAll('.identity-tab');
     if (!tabs.length || !('IntersectionObserver' in window)) return;
