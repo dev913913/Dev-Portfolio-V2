@@ -225,7 +225,7 @@ async function render() {
     if (card) engShowcase.appendChild(card);
   }
 
-  // Blog embed — click to load
+  // Blog embed — lazy-loaded iframe, no click required
   const blogShowcase = document.getElementById('teach-blog-showcase');
   if (t.blogFeature) {
     const card = buildBlogCard(t.blogFeature);
