@@ -244,7 +244,7 @@ async function render() {
     if (!s.url) return;
     const a = el('a', { text: s.label, attrs: { href: s.url, target: '_blank', rel: 'noopener' } });
     socialsWrap.appendChild(a);
-  });
+  }); 
 
   // Teaching
   const t = data.teaching || {};
