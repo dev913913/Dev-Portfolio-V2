@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dev — Educator, Developer, and Writer</title>
 <meta name="description" content="Dev Kumar — English educator and self-taught web developer. Teaching, building, and writing.">
-<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
@@ -123,6 +125,18 @@
 <footer>
   <p>Built page by page. <a href="#top">Back to top ↑</a> <span class="footer-signature">— Dev</span></p>
 </footer>
+
+<div class="live-preview-modal" id="live-preview-modal" hidden>
+  <div class="live-preview-modal-panel" role="dialog" aria-modal="true" aria-label="Live project preview">
+    <div class="live-preview-modal-bar">
+      <span class="live-preview-modal-title" id="live-preview-modal-title"></span>
+      <button type="button" class="live-preview-modal-close" id="live-preview-modal-close"
+        aria-label="Close preview">&times;</button>
+    </div>
+    <iframe class="live-preview-modal-iframe" id="live-preview-modal-iframe" title="Live project preview"
+      loading="lazy"></iframe>
+  </div>
+</div>
 
 <script src="js/content.js"></script>
 <script src="js/render.js"></script>

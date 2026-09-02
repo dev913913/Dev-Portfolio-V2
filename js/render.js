@@ -51,6 +51,39 @@ function setMarginNote(sectionEl, text) {
   if (note) note.textContent = text;
 }
 
+function openLivePreviewModal(url, title) {
+  const modal = document.getElementById('live-preview-modal');
+  const iframe = document.getElementById('live-preview-modal-iframe');
+  const titleEl = document.getElementById('live-preview-modal-title');
+  if (!modal || !iframe) return;
+  iframe.src = url;
+  if (titleEl) titleEl.textContent = title || '';
+  modal.hidden = false;
+  document.body.classList.add('modal-open');
+}
+
+function closeLivePreviewModal() {
+  const modal = document.getElementById('live-preview-modal');
+  const iframe = document.getElementById('live-preview-modal-iframe');
+  if (!modal) return;
+  modal.hidden = true;
+  document.body.classList.remove('modal-open');
+  if (iframe) iframe.src = '';
+}
+
+function initLivePreviewModal() {
+  const modal = document.getElementById('live-preview-modal');
+  if (!modal) return;
+  const closeBtn = document.getElementById('live-preview-modal-close');
+  if (closeBtn) closeBtn.addEventListener('click', closeLivePreviewModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeLivePreviewModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.hidden) closeLivePreviewModal();
+  });
+}
+
 /**
  * Extracts a YouTube video ID from various URL formats or returns the ID if already provided.
  * @param {string} value - A YouTube URL or video ID.
@@ -352,27 +385,17 @@ async function render() {
       const img = el('img', { attrs: { src: proj.image, alt: proj.name || '', loading: 'lazy' } });
       safeFallback(img, shot, 'shot-fallback');
       shot.appendChild(img);
-
-      if (proj.liveEmbed && proj.link) {
-        const openBtn = el('button', {
-          class: 'live-preview-btn',
-          text: 'Open live preview',
-          attrs: { type: 'button', 'aria-label': `Open a live preview of ${proj.name}` }
-        });
-        openBtn.addEventListener('click', () => {
-          const iframe = el('iframe', {
-            class: 'project-live-iframe',
-            attrs: {
-              src: proj.link,
-              title: `${proj.name} — live preview`,
-              loading: 'lazy'
-            }
-          });
-          shot.innerHTML = '';
-          shot.appendChild(iframe);
-        }, { once: true });
-        shot.appendChild(openBtn);
-      }
+if (proj.liveEmbed && proj.link) {
+  const openBtn = el('button', {
+    class: 'live-preview-btn',
+    text: 'Open live preview',
+    attrs: { type: 'button', 'aria-label': `Open a live preview of ${proj.name}` }
+  });
+  openBtn.addEventListener('click', () => {
+    openLivePreviewModal(proj.link, `${proj.name} — live preview`);
+  });
+  shot.appendChild(openBtn);
+}
 
       card.appendChild(shot);
     }
@@ -485,6 +508,7 @@ async function render() {
     writingWrap.appendChild(insta);
   }
 
+  initLivePreviewModal();
   // motion.js hooks into freshly rendered [data-reveal] sections after this fires
   document.dispatchEvent(new Event('content-rendered'));
 }
