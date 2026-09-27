@@ -116,28 +116,32 @@
         "description": "Live educational platform for creating, managing, and publishing programming lessons — C, C++, Python, and JavaScript — with an admin dashboard and Supabase backend.",
         "tech": ["React", "Supabase", "Vercel"],
         "link": "https://codev-cms.vercel.app",
-        "image": "images/codev.jpg"
+        "image": "images/codev.jpg",
+        "liveEmbed": true
       },
       {
         "name": "Pakshi",
         "description": "Indian bird sound library — ambient layers, a woodpecker multi-sound cycler, and a voice-mimic feature that pitch-shifts your voice into a bird call.",
         "tech": ["JavaScript", "Web Audio API", "MediaRecorder"],
         "link": "https://pakshi-lovat.vercel.app",
-        "image": "images/pakshi.jpg"
+        "image": "images/pakshi.jpg",
+        "liveEmbed": true
       },
       {
         "name": "Naruto Motivation Chatbot",
         "description": "AI-powered motivational chatbot inspired by Naruto, with mood-detection across six categories and a hardcoded distress-safety bypass.",
         "tech": ["Gemini API", "Vercel Functions"],
         "link": "https://naruto-motivation-chat.vercel.app",
-        "image": "images/naruto.jpg"
+        "image": "images/naruto.jpg",
+        "liveEmbed": true
       },
       {
         "name": "Dil Ki Dawa",
         "description": "Mood-based recommender for old Hindi songs, powered by the Gemini API.",
         "tech": ["Gemini API", "JavaScript"],
         "link": "https://dil-ki-dawa.vercel.app",
-        "image": "images/dilkidawa.jpg"
+        "image": "images/dilkidawa.jpg",
+        "liveEmbed": true
       }
     ],
     "skills": {
