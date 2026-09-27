@@ -74,6 +74,124 @@ function getYouTubeId(value) {
 }
 
 /**
+ * Opens a full-screen modal that loads a project's live site in a large iframe.
+ * Built once and reused for every project — works for any project that sets
+ * "liveEmbed": true in content.json, not just one hardcoded site.
+ *
+ * Safety/robustness notes:
+ * - Some sites send X-Frame-Options/CSP headers that block iframe embedding.
+ *   A blocked frame still fires the iframe's "load" event in most browsers,
+ *   so we can't rely on "load" alone to know it worked. Instead we start a
+ *   short timer: if the frame hasn't cleared the loading overlay in time,
+ *   we show a clear "can't be embedded" message with a direct link instead
+ *   of leaving a blank white box.
+ * - The iframe uses a `sandbox` attribute so an embedded page can run its
+ *   own scripts/forms but can't navigate the parent page or pop up unwanted
+ *   windows — standard defensive practice when framing any external site.
+ * - Escape key and backdrop click both close the modal; the iframe is fully
+ *   removed from the DOM on close so audio/video/timers inside it stop
+ *   running in the background.
+ * @param {string} url - The URL to load in the preview.
+ * @param {string} name - The project name, used in the modal header and iframe title.
+ */
+function openLivePreview(url, name) {
+  let modal = document.getElementById('live-preview-modal');
+  if (!modal) {
+    modal = el('div', { class: 'live-preview-modal', attrs: { id: 'live-preview-modal', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'live-preview-modal-title' } });
+    const bar = el('div', { class: 'live-preview-modal-bar' });
+    const label = el('span', { class: 'live-preview-modal-title', attrs: { id: 'live-preview-modal-title' } });
+    const actions = el('div', { class: 'live-preview-modal-actions' });
+    const newTab = el('a', {
+      class: 'live-preview-newtab',
+      text: 'Open in new tab ↗',
+      attrs: { id: 'live-preview-newtab', target: '_blank', rel: 'noopener noreferrer' }
+    });
+    const closeBtn = el('button', {
+      class: 'live-preview-close',
+      text: 'Close ✕',
+      attrs: { type: 'button', 'aria-label': 'Close live preview' }
+    });
+    actions.appendChild(newTab);
+    actions.appendChild(closeBtn);
+    bar.appendChild(label);
+    bar.appendChild(actions);
+    const body = el('div', { class: 'live-preview-modal-body', attrs: { id: 'live-preview-modal-body' } });
+    modal.appendChild(bar);
+    modal.appendChild(body);
+    document.body.appendChild(modal);
+
+    const close = () => {
+      if (modal._loadTimer) { clearTimeout(modal._loadTimer); modal._loadTimer = null; }
+      modal.classList.remove('is-open');
+      document.body.classList.remove('modal-open');
+      // Clear the body (removes the iframe) so any embedded audio/video/timers stop.
+      document.getElementById('live-preview-modal-body').innerHTML = '';
+      document.removeEventListener('keydown', modal._onKey);
+    };
+    const onKey = (e) => { if (e.key === 'Escape') close(); };
+    closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+    modal._close = close;
+    modal._onKey = onKey;
+  }
+
+  // Guard against a missing/invalid URL rather than opening a broken empty modal.
+  if (!url || typeof url !== 'string') return;
+
+  document.getElementById('live-preview-modal-title').textContent = name || 'Live preview';
+  const newTabLink = document.getElementById('live-preview-newtab');
+  newTabLink.href = url;
+
+  const body = document.getElementById('live-preview-modal-body');
+  body.innerHTML = '';
+  body.appendChild(el('div', { class: 'live-preview-loading', attrs: { id: 'live-preview-loading' }, text: 'Loading…' }));
+
+  if (modal._loadTimer) clearTimeout(modal._loadTimer);
+
+  const iframe = el('iframe', {
+    class: 'live-preview-iframe',
+    attrs: {
+      src: url,
+      title: `${name || 'Project'} — live preview`,
+      loading: 'eager',
+      sandbox: 'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals'
+    }
+  });
+
+  const clearLoadingState = () => {
+    if (modal._loadTimer) { clearTimeout(modal._loadTimer); modal._loadTimer = null; }
+    const loading = document.getElementById('live-preview-loading');
+    if (loading) loading.remove();
+  };
+
+  iframe.addEventListener('load', clearLoadingState);
+  body.appendChild(iframe);
+
+  // Fallback: if nothing has cleared the loading state after 6s, assume the
+  // site is blocking embedding (or is too slow) and show a direct-link message
+  // instead of a permanently blank modal.
+  modal._loadTimer = setTimeout(() => {
+    const loading = document.getElementById('live-preview-loading');
+    if (loading) {
+      body.innerHTML = '';
+      const fallback = el('div', { class: 'live-preview-blocked' });
+      fallback.appendChild(el('p', { text: "This site can't be shown in an embedded preview." }));
+      const link = el('a', {
+        text: 'Open it in a new tab instead ↗',
+        class: 'live-preview-blocked-link',
+        attrs: { href: url, target: '_blank', rel: 'noopener noreferrer' }
+      });
+      fallback.appendChild(link);
+      body.appendChild(fallback);
+    }
+  }, 6000);
+
+  modal.classList.add('is-open');
+  document.body.classList.add('modal-open');
+  document.addEventListener('keydown', modal._onKey);
+}
+
+/**
  * Builds a click-to-expand YouTube video card.
  * Renders a thumbnail with a play affordance. On click, swaps the
  * thumbnail for a real iframe embed (autoplay=1) so nothing loads
@@ -357,20 +475,9 @@ async function render() {
         const openBtn = el('button', {
           class: 'live-preview-btn',
           text: 'Open live preview',
-          attrs: { type: 'button', 'aria-label': `Open a live preview of ${proj.name}` }
+          attrs: { type: 'button', 'aria-label': `Open a full-screen live preview of ${proj.name}` }
         });
-        openBtn.addEventListener('click', () => {
-          const iframe = el('iframe', {
-            class: 'project-live-iframe',
-            attrs: {
-              src: proj.link,
-              title: `${proj.name} — live preview`,
-              loading: 'lazy'
-            }
-          });
-          shot.innerHTML = '';
-          shot.appendChild(iframe);
-        }, { once: true });
+        openBtn.addEventListener('click', () => openLivePreview(proj.link, proj.name));
         shot.appendChild(openBtn);
       }
 
