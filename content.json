@@ -7,7 +7,7 @@
     "name": "Dev Kumar",
     "eyebrow": "English & Computer Applications Teacher",
     "tagline": "I teach in a way that's easy to follow — and I build the tools to back it up.",
-    "photo": "images/profile.jpg",
+    "photo": "images/profile.webp",
     "location": "Dasuya, Punjab, India",
     "bio": "I've spent the last three years teaching English and Computer Applications using real examples and stories instead of just textbook rules. When a lesson isn't working, I build something that will — quiz sites, learning platforms, even a grammar chatbot. I also handle a lot of my college's digital and administrative work, and build web projects in my free time.",
     "marginNote": "started as a teacher, kept getting distracted by the console",
@@ -107,7 +107,7 @@
         "description": "Supplementary teaching site for AECC English — quizzes, PYQ archives, and Lab/Theory unit content, built alongside actual classroom use.",
         "tech": ["React", "Vite", "Tailwind", "Vercel"],
         "link": "https://ptu-english.vercel.app",
-        "image": "images/ptuenglish.jpg",
+        "image": "images/ptuenglish.webp",
         "featured": true,
         "liveEmbed": true
       },
@@ -116,28 +116,28 @@
         "description": "Live educational platform for creating, managing, and publishing programming lessons — C, C++, Python, and JavaScript — with an admin dashboard and Supabase backend.",
         "tech": ["React", "Supabase", "Vercel"],
         "link": "https://codev-cms.vercel.app",
-        "image": "images/codev.jpg"
+        "image": "images/codev.webp"
       },
       {
         "name": "Pakshi",
         "description": "Indian bird sound library — ambient layers, a woodpecker multi-sound cycler, and a voice-mimic feature that pitch-shifts your voice into a bird call.",
         "tech": ["JavaScript", "Web Audio API", "MediaRecorder"],
         "link": "https://pakshi-lovat.vercel.app",
-        "image": "images/pakshi.jpg"
+        "image": "images/pakshi.webp"
       },
       {
         "name": "Naruto Motivation Chatbot",
         "description": "AI-powered motivational chatbot inspired by Naruto, with mood-detection across six categories and a hardcoded distress-safety bypass.",
         "tech": ["Gemini API", "Vercel Functions"],
         "link": "https://naruto-motivation-chat.vercel.app",
-        "image": "images/naruto.jpg"
+        "image": "images/naruto.webp"
       },
       {
         "name": "Dil Ki Dawa",
         "description": "Mood-based recommender for old Hindi songs, powered by the Gemini API.",
         "tech": ["Gemini API", "JavaScript"],
         "link": "https://dil-ki-dawa.vercel.app",
-        "image": "images/dilkidawa.jpg"
+        "image": "images/dilkidawa.webp"
       }
     ],
     "skills": {
@@ -161,12 +161,12 @@
       "publicationName": "Opti Nihilist",
       "description": "Essays on personal development, psychology, and philosophy — some pieces recognised and shared by published authors.",
       "link": "https://optinihilist.substack.com/",
-      "image": "images/substack-preview.jpg"
+      "image": "images/substack-preview.webp"
     },
     "instagram": {
       "handle": "@opti.nihilist",
       "link": "https://www.instagram.com/opti.nihilist/",
-      "image": "images/instagram-preview.jpg"
+      "image": "images/instagram-preview.webp"
     }
   }
       }

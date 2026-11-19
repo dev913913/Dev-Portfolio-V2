@@ -3,15 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dev — Educator, Developer, and Writer</title>
-<meta name="description" content="Dev Kumar — English educator and self-taught web developer. Teaching, building, and writing.">
+<title>Dev Kumar — Educator, Developer and Writer</title>
+<meta name="description" content="Dev Kumar — English and Computer Applications teacher and self-taught web developer in Dasuya, Punjab. Teaching, building, and writing.">
+<meta name="author" content="Dev Kumar">
+<meta name="theme-color" content="#F6F3EC">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dev Kumar — Educator, Developer and Writer">
+<meta property="og:description" content="English and Computer Applications teacher who builds the learning tools his students need. Teaching, building, and writing.">
+<meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="preload" href="content.json" as="fetch" crossorigin>
+<link rel="preload" href="images/profile.webp" as="image" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,300&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;600&family=Caveat:wght@500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,300&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;600&family=Caveat:wght@500;600&display=swap"></noscript>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Dev Kumar","jobTitle":"English & Computer Applications Teacher","address":{"@type":"PostalAddress","addressLocality":"Dasuya","addressRegion":"Punjab","addressCountry":"IN"},"sameAs":["https://github.com/dev913913","https://optinihilist.substack.com/","https://www.instagram.com/opti.nihilist/","https://bewakoofenglish.blogspot.com"]}
+</script>
+<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}.margin-note{opacity:1!important}</style></noscript>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
 
 <div class="paper-texture" aria-hidden="true"></div>
 <div class="margin-rule" aria-hidden="true"></div>
@@ -19,15 +34,16 @@
 
 <header class="hero" id="top">
   <div class="hero-inner">
-    <p class="eyebrow" data-note id="profile-eyebrow"></p>
-    <h1 id="profile-name">Dev</h1>
-    <p class="tagline" id="profile-tagline">Teacher by craft. Builder by curiosity.</p>
-    <p class="bio" id="profile-bio"></p>
+    <p class="eyebrow" data-note id="profile-eyebrow">English &amp; Computer Applications Teacher</p>
+    <h1 id="profile-name">Dev Kumar</h1>
+    <p class="tagline" id="profile-tagline">I teach in a way that's easy to follow — and I build the tools to back it up.</p>
+    <p class="bio" id="profile-bio">I've spent the last three years teaching English and Computer Applications using real examples and stories instead of just textbook rules. When a lesson isn't working, I build something that will — quiz sites, learning platforms, even a grammar chatbot. I also handle a lot of my college's digital and administrative work, and build web projects in my free time.</p>
     <div class="socials" id="profile-socials"></div>
+    <noscript><p class="bio">Links: <a href="https://youtube.com/@bewakoofenglish-wo8ze">YouTube</a>, <a href="https://bewakoofenglish.blogspot.com">Blog</a>, <a href="https://optinihilist.substack.com/">Substack</a>, <a href="https://github.com/dev913913">GitHub</a>, <a href="mailto:dev913913@gmail.com">Email</a>.</p></noscript>
   </div>
   <div class="hero-photo-wrap" id="profile-photo-wrap">
     <span class="photo-fallback-mark" aria-hidden="true">DK</span>
-    <img id="profile-photo" src="images/profile.jpg" alt="Profile photo">
+    <img id="profile-photo" src="images/profile.webp" alt="Portrait of Dev Kumar" width="152" height="152" fetchpriority="high">
     <svg class="photo-tape" viewBox="0 0 80 28" aria-hidden="true"><rect x="0" y="0" width="80" height="28" /></svg>
   </div>
 </header>
@@ -57,7 +73,7 @@
   </a>
 </nav>
 
-<main>
+<main id="main">
 
   <section class="lane lane-teach" id="teach" data-reveal>
     <div class="lane-head">
@@ -83,7 +99,7 @@
     <div class="confidence-strip" id="teach-confidence"></div>
 
     <div class="admin-block">
-      <h3>Institutional Work </h3>
+      <h3>Institutional Work</h3>
       <ul id="teach-admin"></ul>
     </div>
   </section>
@@ -121,11 +137,12 @@
 </main>
 
 <footer>
+  <p class="footer-contact" id="footer-contact"></p>
   <p>Built page by page. <a href="#top">Back to top ↑</a> <span class="footer-signature">— Dev</span></p>
 </footer>
 
-<script src="js/content.js"></script>
-<script src="js/render.js"></script>
-<script src="js/motion.js"></script>
+<script src="js/content.js" defer></script>
+<script src="js/render.js" defer></script>
+<script src="js/motion.js" defer></script>
 </body>
-  </html>
+</html>

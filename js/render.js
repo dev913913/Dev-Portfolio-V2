@@ -98,10 +98,10 @@ function buildVideoCard({ youtubeId, label, title, description, size = 'large' }
     class: 'video-thumb',
     attrs: {
       type: 'button',
-      'aria-label': `Play video: ${title || 'YouTube video'}`,
-      style: `background-image:url('https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg')`
+      'aria-label': `Play video: ${title || 'YouTube video'}`
     }
   });
+  thumb.appendChild(thumbImg(youtubeId));
   const playBtn = el('span', { class: 'play-badge', html: playIconSVG() });
   thumb.appendChild(playBtn);
   frame.appendChild(thumb);
@@ -126,6 +126,16 @@ function buildVideoCard({ youtubeId, label, title, description, size = 'large' }
   if (description) wrap.appendChild(el('p', { text: description }));
 
   return wrap;
+}
+
+/**
+ * Lazy-loaded YouTube thumbnail. Using <img loading="lazy"> instead of a CSS
+ * background means thumbnails below the fold are not downloaded until needed.
+ * @param {string} id - YouTube video ID.
+ * @returns {HTMLImageElement}
+ */
+function thumbImg(id) {
+  return el('img', { attrs: { src: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`, alt: '', loading: 'lazy', decoding: 'async', width: 480, height: 360 } });
 }
 
 /**
@@ -158,10 +168,10 @@ function buildShortCard({ youtubeId, title, topic }) {
     class: 'video-thumb short-thumb',
     attrs: {
       type: 'button',
-      'aria-label': `Play short: ${title || 'YouTube Short'}`,
-      style: `background-image:url('https://i.ytimg.com/vi/${videoId}/hqdefault.jpg')`
+      'aria-label': `Play short: ${title || 'YouTube Short'}`
     }
   });
+  thumb.appendChild(thumbImg(videoId));
   thumb.appendChild(el('span', { class: 'play-badge', html: playIconSVG() }));
   frame.appendChild(thumb);
 
@@ -213,7 +223,7 @@ function buildBlogCard({ label, title, description, link }) {
 
   if (title) wrap.appendChild(el('h3', { text: title }));
   if (description) wrap.appendChild(el('p', { text: description }));
-  wrap.appendChild(el('a', { text: 'Visit blog directly', class: 'card-link', attrs: { href: link, target: '_blank', rel: 'noopener' } }));
+  wrap.appendChild(el('a', { text: 'Visit blog directly', class: 'card-link', attrs: { href: link, target: '_blank', rel: 'noopener noreferrer', 'aria-label': 'Visit the Bewakoof English blog directly (opens in a new tab)' } }));
 
   return wrap;
 }
@@ -224,7 +234,16 @@ function buildBlogCard({ label, title, description, link }) {
  * @returns {Promise<void>}
  */
 async function render() {
-  const data = await loadContent();
+  let data;
+  try {
+    data = await loadContent();
+  } catch (err) {
+    console.error('Could not load content.json:', err);
+    document.querySelectorAll('[data-reveal]').forEach(s => s.classList.add('is-visible'));
+    const bio = document.getElementById('profile-bio');
+    if (bio) bio.textContent = "Something went wrong loading this page's content. Please refresh, or reach me directly at dev913913@gmail.com.";
+    return;
+  }
   if (!data) return;
 
   document.title = data.site?.title || 'Portfolio';
@@ -242,7 +261,7 @@ async function render() {
   const socialsWrap = document.getElementById('profile-socials');
   (p.socials || []).forEach(s => {
     if (!s.url) return;
-    const a = el('a', { text: s.label, attrs: { href: s.url, target: '_blank', rel: 'noopener' } });
+    const a = el('a', { text: s.label, attrs: { href: s.url, target: '_blank', rel: 'noopener noreferrer' } });
     socialsWrap.appendChild(a);
   }); 
 
@@ -261,7 +280,7 @@ async function render() {
     card.appendChild(el('h3', { text: item.title }));
     card.appendChild(el('p', { text: item.description }));
     if (item.link) {
-      card.appendChild(el('a', { text: 'Visit', class: 'card-link', attrs: { href: item.link, target: '_blank', rel: 'noopener' } }));
+      card.appendChild(el('a', { text: 'Visit', class: 'card-link', attrs: { href: item.link, target: '_blank', rel: 'noopener noreferrer', 'aria-label': `Visit ${item.title} (opens in a new tab)` } }));
     }
     teachContentWrap.appendChild(card);
   });
@@ -349,7 +368,7 @@ async function render() {
 
     if (proj.image) {
       const shot = el('div', { class: 'project-shot' });
-      const img = el('img', { attrs: { src: proj.image, alt: proj.name || '', loading: 'lazy' } });
+      const img = el('img', { attrs: { src: proj.image, alt: `Screenshot of ${proj.name}`, loading: 'lazy', decoding: 'async', width: 960, height: 540 } });
       safeFallback(img, shot, 'shot-fallback');
       shot.appendChild(img);
 
@@ -388,7 +407,7 @@ async function render() {
     }
 
     if (proj.link) {
-      body.appendChild(el('a', { text: 'View live', class: 'card-link', attrs: { href: proj.link, target: '_blank', rel: 'noopener' } }));
+      body.appendChild(el('a', { text: 'View live', class: 'card-link', attrs: { href: proj.link, target: '_blank', rel: 'noopener noreferrer', 'aria-label': `View ${proj.name} live (opens in a new tab)` } }));
     }
 
     card.appendChild(body);
@@ -441,7 +460,7 @@ async function render() {
     const sub = el('div', { class: 'substack-card' });
     if (w.substack.image) {
       const shot = el('div', { class: 'showcase-shot' });
-      const img = el('img', { attrs: { src: w.substack.image, alt: (w.substack.publicationName || 'Substack') + ' preview', loading: 'lazy' } });
+      const img = el('img', { attrs: { src: w.substack.image, alt: (w.substack.publicationName || 'Substack') + ' preview', loading: 'lazy', decoding: 'async' } });
       safeFallback(img, shot, 'shot-fallback-light');
       shot.appendChild(img);
       sub.appendChild(shot);
@@ -455,7 +474,7 @@ async function render() {
     if (w.substack.link) {
       const cta = el('a', {
         class: 'substack-cta',
-        attrs: { href: w.substack.link, target: '_blank', rel: 'noopener' }
+        attrs: { href: w.substack.link, target: '_blank', rel: 'noopener noreferrer' }
       });
       cta.appendChild(el('span', { text: 'Read on Substack' }));
       cta.appendChild(el('span', { class: 'substack-cta-arrow', html: '&rarr;' }));
@@ -479,10 +498,23 @@ async function render() {
     instaBody.appendChild(el('h3', { text: w.instagram.handle || 'Instagram' }));
     instaBody.appendChild(el('p', { text: 'Reflective and educational writing, in shorter form.' }));
     if (w.instagram.link) {
-      instaBody.appendChild(el('a', { text: 'View profile', class: 'card-link', attrs: { href: w.instagram.link, target: '_blank', rel: 'noopener' } }));
+      instaBody.appendChild(el('a', { text: 'View profile', class: 'card-link', attrs: { href: w.instagram.link, target: '_blank', rel: 'noopener noreferrer', 'aria-label': `View ${w.instagram.handle || 'Instagram'} profile on Instagram (opens in a new tab)` } }));
     }
     insta.appendChild(instaBody);
     writingWrap.appendChild(insta);
+  }
+
+  // Resume link (only shown once resumeLink is filled in content.json)
+  if (p.resumeLink) {
+    socialsWrap.appendChild(el('a', { text: 'Résumé', attrs: { href: p.resumeLink, target: '_blank', rel: 'noopener noreferrer' } }));
+  }
+
+  // Footer contact line — pulled from the Email social so there's one source of truth
+  const mail = (p.socials || []).find(s => /^mailto:/i.test(s.url || ''));
+  const footerContact = document.getElementById('footer-contact');
+  if (mail && footerContact) {
+    footerContact.appendChild(document.createTextNode('Want to talk teaching, tools, or a project? '));
+    footerContact.appendChild(el('a', { text: mail.url.replace(/^mailto:/i, ''), attrs: { href: mail.url } }));
   }
 
   // motion.js hooks into freshly rendered [data-reveal] sections after this fires
