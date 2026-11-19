@@ -98,10 +98,10 @@ function buildVideoCard({ youtubeId, label, title, description, size = 'large' }
     class: 'video-thumb',
     attrs: {
       type: 'button',
-      'aria-label': `Play video: ${title || 'YouTube video'}`,
-      style: `background-image:url('https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg')`
+      'aria-label': `Play video: ${title || 'YouTube video'}`
     }
   });
+  thumb.appendChild(thumbImg(youtubeId));
   const playBtn = el('span', { class: 'play-badge', html: playIconSVG() });
   thumb.appendChild(playBtn);
   frame.appendChild(thumb);
@@ -126,6 +126,16 @@ function buildVideoCard({ youtubeId, label, title, description, size = 'large' }
   if (description) wrap.appendChild(el('p', { text: description }));
 
   return wrap;
+}
+
+/**
+ * Lazy-loaded YouTube thumbnail. Using <img loading="lazy"> instead of a CSS
+ * background means thumbnails below the fold are not downloaded until needed.
+ * @param {string} id - YouTube video ID.
+ * @returns {HTMLImageElement}
+ */
+function thumbImg(id) {
+  return el('img', { attrs: { src: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`, alt: '', loading: 'lazy', decoding: 'async', width: 480, height: 360 } });
 }
 
 /**
@@ -158,10 +168,10 @@ function buildShortCard({ youtubeId, title, topic }) {
     class: 'video-thumb short-thumb',
     attrs: {
       type: 'button',
-      'aria-label': `Play short: ${title || 'YouTube Short'}`,
-      style: `background-image:url('https://i.ytimg.com/vi/${videoId}/hqdefault.jpg')`
+      'aria-label': `Play short: ${title || 'YouTube Short'}`
     }
   });
+  thumb.appendChild(thumbImg(videoId));
   thumb.appendChild(el('span', { class: 'play-badge', html: playIconSVG() }));
   frame.appendChild(thumb);
 
