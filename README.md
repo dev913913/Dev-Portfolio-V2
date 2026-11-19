@@ -15,8 +15,8 @@ js/
   content.js          fetches content.json
   render.js           reads content.json and builds every section's HTML
   motion.js           scroll reveals + reading progress bar
-images/               your photo + project screenshots
-certificates/         certificate images
+images/               your photo + project screenshots (WebP, ~960px wide)
+certificates/         create this folder when you add your first certificate
 ```
 
 **The rule that makes this easy to maintain: you almost never touch HTML, CSS, or JS.**
@@ -40,7 +40,7 @@ Open `content.json`, find `"building" → "projects"`, and add a new object to t
   "description": "One or two sentences — what it does and who it's for.",
   "tech": ["React", "Supabase"],
   "link": "https://your-project.vercel.app",
-  "image": "images/new-project.jpg"
+  "image": "images/new-project.webp"
 }
 ```
 
@@ -94,8 +94,8 @@ For consistent, clean screenshots that won't need re-cropping later:
    dashboard with real content — not a blank landing screen or login page
 4. `Cmd/Ctrl+Shift+P` → type "screenshot" → **Capture screenshot** (captures exactly
    the viewport you set)
-5. Save as `.jpg` at ~80–85% quality (screenshots compress fine as JPG; keeps the repo
-   light — PNG is unnecessary for this)
+5. Resize to ~960px wide and save as `.webp` at ~80% quality (a 1280×720 screenshot
+   becomes ~20–40 KB instead of 300 KB+; PNG/JPG at full size makes the page slow)
 
 Desktop-only is enough — the *card* is already responsive, so a desktop-captured
 screenshot displays fine inside it on any device. You don't need a separate mobile
@@ -137,3 +137,12 @@ git push
 
 That's the entire workflow for every future update, forever — edit `content.json` (and
 drop in an image if needed), commit, push, done.
+
+
+---
+
+## Notes on this version
+
+- `vercel.json` sets long caching for images and revalidation for CSS/JS.
+- Fill `profile.resumeLink` in `content.json` and a Résumé link appears automatically.
+- For link previews (WhatsApp/LinkedIn) add `og:image` and `og:url` meta tags in `index.html` using your full live URL and a 1200×630 image.

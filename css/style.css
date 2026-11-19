@@ -4,10 +4,11 @@
   --paper-shadow: #E4DCC7;
   --ink: #24231E;
   --ink-soft: #5C5847;
-  --ink-faint: #8A8571;
+  --ink-faint: #6B6653;   /* darkened for WCAG AA text contrast (was #8A8571, 3.3:1) */
   --red: #A13D2B;
   --chalk: #35576B;
   --gold: #B8964F;
+  --gold-text: #7A5F1F;   /* gold for text on light backgrounds (AA); --gold stays for borders/dark cards */
   --line: #D9D1BB;
   --line-soft: #E6DFCB;
   --serif: 'Fraunces', Georgia, serif;
@@ -23,6 +24,7 @@
 html{ scroll-behavior: smooth; }
 
 body{
+  overflow-x: clip;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--body);
@@ -68,6 +70,15 @@ body{
 
 a{ color: var(--red); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s var(--ease-out), color 0.2s var(--ease-out); }
 a:hover{ border-bottom-color: var(--red); }
+/* skip link — first tab stop, visible only on focus */
+.skip-link{
+  position: absolute; left: 12px; top: -48px; z-index: 100;
+  padding: 10px 16px; background: var(--ink); color: var(--paper);
+  font-family: var(--mono); font-size: 0.85rem; border-radius: 4px;
+  transition: top 0.2s var(--ease-out);
+}
+.skip-link:focus{ top: 12px; }
+
 a:focus-visible, button:focus-visible{ outline: 2px solid var(--chalk); outline-offset: 3px; border-radius: 2px; }
 
 /* HERO */
@@ -280,7 +291,7 @@ a:focus-visible, button:focus-visible{ outline: 2px solid var(--chalk); outline-
   border-color: var(--gold);
 }
 .identity-tab[data-target="writing"]:hover .identity-tab-mark,
-.identity-tab[data-target="writing"].is-active .identity-tab-mark{ color: var(--gold); }
+.identity-tab[data-target="writing"].is-active .identity-tab-mark{ color: var(--gold-text); }
 
 /* LANES */
 main{ max-width: var(--max); margin: 0 auto; padding: 0 32px 0 88px; position: relative; z-index: 1; }
@@ -417,7 +428,6 @@ main{ max-width: var(--max); margin: 0 auto; padding: 0 32px 0 88px; position: r
   font-family: var(--serif);
   font-weight: 600;
   font-size: 1.15rem;
-  margin-bottom: 8px;
   margin-bottom: 8px;
 }
 .card p{ color: var(--ink-soft); font-size: 0.92rem; margin-bottom: 12px; }
@@ -695,7 +705,9 @@ main{ max-width: var(--max); margin: 0 auto; padding: 0 32px 0 88px; position: r
   transform: translateY(6px);
   transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out), background 0.2s var(--ease-out);
 }
-.project-card:hover .live-preview-btn{ opacity: 1; transform: translateY(0); }
+.project-card:hover .live-preview-btn,
+.live-preview-btn:focus-visible{ opacity: 1; transform: translateY(0); }
+@media (hover: none){ .live-preview-btn{ opacity: 1; transform: none; } }
 .live-preview-btn:hover{ background: var(--gold); color: var(--ink); }
 
 .project-live-iframe{
@@ -846,6 +858,8 @@ footer{
   position: relative;
   z-index: 1;
 }
+footer .footer-contact{ margin-bottom: 14px; font-size: 0.9rem; color: var(--ink); }
+footer .footer-contact a{ border-bottom: 1px solid var(--line); }
 @media (max-width: 720px){ footer{ padding: 40px 24px 64px 56px; } }
 .footer-signature{
   font-family: var(--hand);
